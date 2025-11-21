@@ -18,7 +18,7 @@ class IndividualCreate(IndividualBase):
 class IndividualUpdate(IndividualBase):
     pass
 
-class IndividualOut(IndividualBase):
+class IndividualResponse(IndividualBase):
     id:int
 
     class Config:

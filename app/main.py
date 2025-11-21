@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.routers import individual_router
+from app.api.individuals import router as individuals_router
 
 
 app = FastAPI(
@@ -7,7 +7,7 @@ app = FastAPI(
     version="1.0.0"
 )
 
-app.include_router(individual_router.router)
+app.include_router(individuals_router)
 
 @app.get("/")
 def root():
