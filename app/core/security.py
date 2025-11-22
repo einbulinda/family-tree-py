@@ -5,9 +5,9 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from passlib.context import CryptContext
-from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import Session
 from sqlalchemy import select
-from sqlalchemy.util import deprecated
+
 
 from app.core.config import settings
 from app.db.database import get_db
@@ -17,7 +17,7 @@ from app.schemas.user_schema import TokenData
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 # This tells FastAPI how clients will send the token (Authorization: Bearer <token>)
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/login")
 
 def verify_password(plain_password:str, hashed_password:str)->bool:
     return pwd_context.verify(plain_password, hashed_password)
@@ -35,13 +35,13 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None)->
         )
     to_encode.update({"exp": expire})
     encode_jwt = jwt.encode(
-        to_encode, settings.JWT_SECRET_KEY, algorithm=settings.JWT_ALGORITHM
+        to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM
     )
     return encode_jwt
 
-async def get_current_user(
+def get_current_user(
         token: str = Depends(oauth2_scheme),
-        db: AsyncSession = Depends(get_db),
+        db: Session = Depends(get_db),
 ) -> User:
     credentials_exception = HTTPException(
         status_code= status.HTTP_401_UNAUTHORIZED,
@@ -62,7 +62,7 @@ async def get_current_user(
         raise credentials_exception
 
     # Fetch user from DB
-    result = await db.execute(select(User).where(User.id == int(user_id)))
+    result = db.execute(select(User).where(User.id == int(user_id)))
     user = result.scalar_one_or_none()
 
     if user is None:

@@ -30,5 +30,5 @@ class RelationshipService:
         return  create_relationship(db, data)
 
     @staticmethod
-    async def get_relationships(db: Session, individual_id: int):
+    def get_relationships(db: Session, individual_id: int):
         return individual_relationship(db, individual_id)

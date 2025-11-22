@@ -1,7 +1,6 @@
 from datetime import timedelta
 
 from fastapi import APIRouter, Depends, HTTPException, status
-from mako.testing.helpers import result_lines
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 
@@ -18,12 +17,12 @@ UserCreate, UserLogin, UserRead, Token
 router = APIRouter(prefix="/api/auth", tags=["auth"])
 
 @router.post("/register", response_model=UserRead, status_code=status.HTTP_201_CREATED)
-async def register_user(
+def register_user(
         user_in: UserCreate,
         db: AsyncSession = Depends(get_db)
 ):
     # Check is email already exists
-    result = await db.execute(select(User).where(User.email == user_in.email))
+    result = db.execute(select(User).where(User.email == user_in.email))
     existing_user = result.scalar_one_or_none()
     if existing_user:
         raise HTTPException(
@@ -40,17 +39,17 @@ async def register_user(
     )
 
     db.add(user)
-    await db.commit()
-    await db.refresh(user)
+    db.commit()
+    db.refresh(user)
 
     return user
 
 @router.post("/login", response_model=Token)
-async def login(
+def login(
     credentials: UserLogin,
     db: AsyncSession = Depends(get_db),
 ):
-    result = await db.execute(select(User).where(User.email == credentials.email))
+    result = db.execute(select(User).where(User.email == credentials.email))
     user = result.scalar_one_or_none()
 
     if not user:
@@ -75,5 +74,5 @@ async def login(
 
 
 @router.get("/me", response_model=UserRead)
-async def get_me(current_user: User = Depends(get_current_user)):
+def get_me(current_user: User = Depends(get_current_user)):
     return current_user

@@ -28,7 +28,7 @@ def update_individual(individual_id: int, payload: IndividualUpdate, db:Session 
         raise HTTPException(status_code=404, detail="Individual not found")
     return  updated
 
-@router.delete("/{individual_id}", status_code=204)
+@router.delete("/{individual_id}", status_code=200)
 def delete_individual(individual_id:int, db:Session = Depends(get_db)):
     deleted = IndividualService.delete(db, individual_id)
     if not deleted:
