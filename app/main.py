@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 from app.api.individuals import router as individuals_router
+from app.api.auth import router as auth_router
+from app.api.relationship import router as relation_router
 
 
 app = FastAPI(
@@ -8,6 +10,8 @@ app = FastAPI(
 )
 
 app.include_router(individuals_router)
+app.include_router(auth_router)
+app.include_router(relation_router)
 
 @app.get("/")
 def root():
