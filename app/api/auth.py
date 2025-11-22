@@ -1,41 +1,46 @@
 from datetime import timedelta
 
 from fastapi import APIRouter, Depends, HTTPException, status
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
+from sqlalchemy.orm import Session
 
 from app.core.config import settings
 from app.core.security import (
-verify_password, get_password_hash, create_access_token, get_current_user
+    verify_password,
+    get_password_hash,
+    create_access_token,
+    get_current_user,
 )
 from app.db.database import get_db
 from app.models.user import User
 from app.schemas.user_schema import (
-UserCreate, UserLogin, UserRead, Token
+    UserCreate,
+    UserLogin,
+    UserRead,
+    Token,
 )
 
-router = APIRouter(prefix="/api/auth", tags=["auth"])
+router = APIRouter(prefix="/api/auth", tags=["Auth"])
+
 
 @router.post("/register", response_model=UserRead, status_code=status.HTTP_201_CREATED)
 def register_user(
-        user_in: UserCreate,
-        db: AsyncSession = Depends(get_db)
+    payload: UserCreate,
+    db: Session = Depends(get_db),
 ):
-    # Check is email already exists
-    result = db.execute(select(User).where(User.email == user_in.email))
-    existing_user = result.scalar_one_or_none()
-    if existing_user:
+    # Check if email is already used
+    existing = db.query(User).filter(User.email == payload.email).first()
+    if existing:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Email already registered",
         )
 
     user = User(
-        email=user_in.email,
-        name=user_in.name,
-        password_hash=get_password_hash(user_in.password),
+        email=payload.email,
+        name=payload.name,
+        password_hash=get_password_hash(payload.password),
         role="member",
-        is_approved=True
+        is_approved=True,  # or False if you want an approval flow
     )
 
     db.add(user)
@@ -44,21 +49,15 @@ def register_user(
 
     return user
 
+
 @router.post("/login", response_model=Token)
 def login(
-    credentials: UserLogin,
-    db: AsyncSession = Depends(get_db),
+    payload: UserLogin,
+    db: Session = Depends(get_db),
 ):
-    result = db.execute(select(User).where(User.email == credentials.email))
-    user = result.scalar_one_or_none()
+    user = db.query(User).filter(User.email == payload.email).first()
 
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Incorrect email or password",
-        )
-
-    if not verify_password(credentials.password, user.password_hash):
+    if not user or not verify_password(payload.password, user.password_hash):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect email or password",

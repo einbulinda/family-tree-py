@@ -14,7 +14,11 @@ SessionLocal = sessionmaker(
     autocommit=False
 )
 
-def get_db() -> Session:
+def get_db():
+    """
+    FastAPI dependency that provides a SQLAlchemy Session
+    and makes sure it is closed after the request.
+    """
     db = SessionLocal()
     try:
         yield db
