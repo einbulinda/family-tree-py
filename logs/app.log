@@ -1,0 +1,97 @@
+2025-11-23 14:04:26,084 - INFO - family_tree - Incoming request: POST http://127.0.0.1:8000/api/auth/register
+2025-11-23 14:04:26,094 - DEBUG - family_tree.database - DB session opened
+2025-11-23 14:04:26,127 - INFO - family_tree.auth - User registration attempt: einbulinda@gmail.com
+2025-11-23 14:04:26,133 - DEBUG - family_tree.database - DB session closed
+2025-11-23 14:09:21,160 - INFO - family_tree - Incoming request: POST http://127.0.0.1:8000/api/auth/login
+2025-11-23 14:09:21,164 - DEBUG - family_tree.database - DB session opened
+2025-11-23 14:09:21,166 - INFO - family_tree.auth - Login attempt for: einbulinda@gmail.com
+2025-11-23 14:09:21,170 - DEBUG - family_tree.database - DB session closed
+2025-11-23 15:24:04,961 - INFO - family_tree - Incoming request: GET http://localhost:8000/docs
+2025-11-23 15:24:04,964 - INFO - family_tree - Completed: GET http://localhost:8000/docs Status: 200 Time: 0.004s
+2025-11-23 15:24:09,022 - INFO - family_tree - Incoming request: GET http://localhost:8000/openapi.json
+2025-11-23 15:24:09,139 - INFO - family_tree - Completed: GET http://localhost:8000/openapi.json Status: 200 Time: 0.116s
+2025-11-23 15:24:37,369 - INFO - family_tree - Incoming request: POST http://127.0.0.1:8000/api/auth/register
+2025-11-23 15:24:37,373 - DEBUG - family_tree.database - DB session opened
+2025-11-23 15:24:37,391 - INFO - family_tree.auth - User registration attempt: einbulinda@gmail.com
+2025-11-23 15:24:37,625 - DEBUG - family_tree.database - DB session closed
+2025-11-23 15:30:33,388 - INFO - family_tree - Incoming request: POST http://127.0.0.1:8000/api/auth/register
+2025-11-23 15:30:33,390 - DEBUG - family_tree.database - DB session opened
+2025-11-23 15:30:33,391 - INFO - family_tree.auth - User registration attempt: einbulinda@gmail.com
+2025-11-23 15:30:33,397 - DEBUG - family_tree.database - DB session closed
+2025-11-23 15:32:25,250 - INFO - family_tree - Incoming request: POST http://127.0.0.1:8000/api/auth/register
+2025-11-23 15:32:25,252 - DEBUG - family_tree.database - DB session opened
+2025-11-23 15:32:25,253 - INFO - family_tree.auth - User registration attempt: einbulinda@gmail.com
+2025-11-23 15:32:25,263 - DEBUG - family_tree.database - DB session closed
+2025-11-23 15:35:33,203 - INFO - family_tree - Incoming request: GET http://localhost:8000/
+2025-11-23 15:35:33,204 - INFO - family_tree - Incoming request: GET http://localhost:8000/
+2025-11-23 15:35:33,204 - INFO - family_tree - Incoming request: GET http://localhost:8000/docs
+2025-11-23 15:35:33,210 - INFO - family_tree - Health check endpoint requested
+2025-11-23 15:35:33,211 - INFO - family_tree - Completed: GET http://localhost:8000/docs Status: 200 Time: 0.007s
+2025-11-23 15:35:33,211 - INFO - family_tree - Health check endpoint requested
+2025-11-23 15:35:33,213 - INFO - family_tree - Completed: GET http://localhost:8000/ Status: 200 Time: 0.010s
+2025-11-23 15:35:33,215 - INFO - family_tree - Completed: GET http://localhost:8000/ Status: 200 Time: 0.011s
+2025-11-23 15:45:32,402 - INFO - family_tree - Incoming request: POST http://127.0.0.1:8000/api/auth/register
+2025-11-23 15:45:32,474 - DEBUG - family_tree.database - DB session opened
+2025-11-23 15:45:32,660 - INFO - family_tree.auth - User registration attempt: einbulinda@gmail.com
+2025-11-23 15:45:33,462 - DEBUG - family_tree.database - DB session closed
+2025-11-23 15:47:21,477 - INFO - family_tree - Incoming request: POST http://127.0.0.1:8000/api/auth/register
+2025-11-23 15:47:21,483 - DEBUG - family_tree.database - DB session opened
+2025-11-23 15:47:21,504 - INFO - family_tree.auth - User registration attempt: einbulinda@gmail.com
+2025-11-23 15:47:21,766 - DEBUG - family_tree.database - DB session closed
+2025-11-23 16:30:56,458 - INFO - family_tree - Incoming request: POST http://127.0.0.1:8000/api/auth/register
+2025-11-23 16:30:56,463 - DEBUG - family_tree.database - DB session opened
+2025-11-23 16:30:56,483 - INFO - family_tree.auth - User registration attempt: einbulinda@gmail.com
+2025-11-23 16:30:57,581 - INFO - family_tree.auth - User login success: einbulinda@gmail.com (ID=1)
+2025-11-23 16:30:57,587 - INFO - family_tree - Completed: POST http://127.0.0.1:8000/api/auth/register Status: 201 Time: 1.129s
+2025-11-23 16:30:57,702 - DEBUG - family_tree.database - DB session closed
+2025-11-23 16:31:34,636 - INFO - family_tree - Incoming request: POST http://127.0.0.1:8000/api/auth/login
+2025-11-23 16:31:34,639 - DEBUG - family_tree.database - DB session opened
+2025-11-23 16:31:34,641 - INFO - family_tree.auth - Login attempt for: einbulinda@gmail.com
+2025-11-23 16:31:35,482 - INFO - family_tree.auth - Login success for: einbulinda@gmail.com
+2025-11-23 16:31:35,485 - INFO - family_tree - Completed: POST http://127.0.0.1:8000/api/auth/login Status: 200 Time: 0.849s
+2025-11-23 16:31:35,487 - DEBUG - family_tree.database - DB session closed
+2025-11-23 16:31:45,156 - INFO - family_tree - Incoming request: GET http://127.0.0.1:8000/api/auth/me
+2025-11-23 16:31:45,159 - DEBUG - family_tree.database - DB session opened
+2025-11-23 16:31:45,173 - INFO - family_tree.auth - Fetching profile for user: einbulinda@gmail.com
+2025-11-23 16:31:45,176 - INFO - family_tree - Completed: GET http://127.0.0.1:8000/api/auth/me Status: 200 Time: 0.019s
+2025-11-23 16:31:45,178 - DEBUG - family_tree.database - DB session closed
+2025-11-23 16:31:55,428 - INFO - family_tree - Incoming request: POST http://127.0.0.1:8000/api/individuals
+2025-11-23 16:31:55,429 - INFO - family_tree - Completed: POST http://127.0.0.1:8000/api/individuals Status: 307 Time: 0.001s
+2025-11-23 16:31:55,435 - INFO - family_tree - Incoming request: POST http://127.0.0.1:8000/api/individuals/
+2025-11-23 16:31:55,439 - DEBUG - family_tree.database - DB session opened
+2025-11-23 16:31:55,488 - INFO - family_tree - Completed: POST http://127.0.0.1:8000/api/individuals/ Status: 201 Time: 0.053s
+2025-11-23 16:31:55,492 - DEBUG - family_tree.database - DB session closed
+2025-11-23 16:32:11,575 - INFO - family_tree - Incoming request: GET http://127.0.0.1:8000/api/individuals
+2025-11-23 16:32:11,576 - INFO - family_tree - Completed: GET http://127.0.0.1:8000/api/individuals Status: 307 Time: 0.002s
+2025-11-23 16:32:11,581 - INFO - family_tree - Incoming request: GET http://127.0.0.1:8000/api/individuals/
+2025-11-23 16:32:11,582 - DEBUG - family_tree.database - DB session opened
+2025-11-23 16:32:11,603 - INFO - family_tree - Completed: GET http://127.0.0.1:8000/api/individuals/ Status: 200 Time: 0.022s
+2025-11-23 16:32:11,605 - DEBUG - family_tree.database - DB session closed
+2025-11-23 16:32:17,781 - INFO - family_tree - Incoming request: GET http://127.0.0.1:8000/api/individuals/1
+2025-11-23 16:32:17,782 - DEBUG - family_tree.database - DB session opened
+2025-11-23 16:32:17,792 - INFO - family_tree - Completed: GET http://127.0.0.1:8000/api/individuals/1 Status: 200 Time: 0.012s
+2025-11-23 16:32:17,795 - DEBUG - family_tree.database - DB session closed
+2025-11-23 16:32:25,259 - INFO - family_tree - Incoming request: PUT http://127.0.0.1:8000/api/individuals/1
+2025-11-23 16:32:25,262 - DEBUG - family_tree.database - DB session opened
+2025-11-23 16:32:25,273 - DEBUG - family_tree.database - DB session closed
+2025-11-23 16:32:25,275 - INFO - family_tree - Completed: PUT http://127.0.0.1:8000/api/individuals/1 Status: 422 Time: 0.016s
+2025-11-23 16:33:45,950 - INFO - family_tree - Incoming request: GET http://127.0.0.1:8000/api/individuals/1
+2025-11-23 16:33:45,952 - DEBUG - family_tree.database - DB session opened
+2025-11-23 16:33:45,960 - INFO - family_tree - Completed: GET http://127.0.0.1:8000/api/individuals/1 Status: 200 Time: 0.011s
+2025-11-23 16:33:45,964 - DEBUG - family_tree.database - DB session closed
+2025-11-23 16:33:46,102 - INFO - family_tree - Incoming request: GET http://127.0.0.1:8000/favicon.ico
+2025-11-23 16:33:46,103 - INFO - family_tree - Completed: GET http://127.0.0.1:8000/favicon.ico Status: 404 Time: 0.001s
+2025-11-23 16:35:49,403 - INFO - family_tree - Incoming request: PUT http://127.0.0.1:8000/api/individuals/1
+2025-11-23 16:35:49,406 - DEBUG - family_tree.database - DB session opened
+2025-11-23 16:35:49,471 - INFO - family_tree - Completed: PUT http://127.0.0.1:8000/api/individuals/1 Status: 200 Time: 0.068s
+2025-11-23 16:35:49,474 - DEBUG - family_tree.database - DB session closed
+2025-11-23 16:36:09,610 - INFO - family_tree - Incoming request: DELETE http://127.0.0.1:8000/api/individuals/1
+2025-11-23 16:36:09,612 - DEBUG - family_tree.database - DB session opened
+2025-11-23 16:36:09,638 - INFO - family_tree - Completed: DELETE http://127.0.0.1:8000/api/individuals/1 Status: 200 Time: 0.028s
+2025-11-23 16:36:09,640 - DEBUG - family_tree.database - DB session closed
+2025-11-23 16:36:15,867 - INFO - family_tree - Incoming request: GET http://127.0.0.1:8000/api/individuals
+2025-11-23 16:36:15,869 - INFO - family_tree - Completed: GET http://127.0.0.1:8000/api/individuals Status: 307 Time: 0.002s
+2025-11-23 16:36:15,873 - INFO - family_tree - Incoming request: GET http://127.0.0.1:8000/api/individuals/
+2025-11-23 16:36:15,875 - DEBUG - family_tree.database - DB session opened
+2025-11-23 16:36:15,883 - INFO - family_tree - Completed: GET http://127.0.0.1:8000/api/individuals/ Status: 200 Time: 0.010s
+2025-11-23 16:36:15,885 - DEBUG - family_tree.database - DB session closed

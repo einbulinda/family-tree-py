@@ -5,7 +5,7 @@ from functools import lru_cache
 
 class Settings(BaseSettings):
     DATABASE_URL: str
-    SYNC_DATABASE_URL: str
+    ASYNC_DATABASE_URL: str
 
     # JWT Settings
     SECRET_KEY: str

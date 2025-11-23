@@ -16,7 +16,7 @@ from app.schemas.user_schema import TokenData
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/login")
 
 # Password hashing configuration
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto",bcrypt__truncate_error=False, bcrypt__rounds=12)
 
 
 # 1. Password hashing helpers
@@ -25,6 +25,7 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
 
 
 def get_password_hash(password: str) -> str:
+    password = password[:72]
     return pwd_context.hash(password)
 
 

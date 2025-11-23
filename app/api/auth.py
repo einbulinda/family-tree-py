@@ -1,7 +1,9 @@
+import logging
 from datetime import timedelta
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
+from sqlalchemy import select
 
 from app.core.config import settings
 from app.core.security import (
@@ -19,7 +21,9 @@ from app.schemas.user_schema import (
     Token,
 )
 
-router = APIRouter(prefix="/api/auth", tags=["Auth"])
+
+router = APIRouter(prefix="/api/auth", tags=["Authentication"])
+logger = logging.getLogger("family_tree.auth")
 
 
 @router.post("/register", response_model=UserRead, status_code=status.HTTP_201_CREATED)
@@ -27,9 +31,11 @@ def register_user(
     payload: UserCreate,
     db: Session = Depends(get_db),
 ):
+    logger.info(f"User registration attempt: {payload.email}")
     # Check if email is already used
-    existing = db.query(User).filter(User.email == payload.email).first()
-    if existing:
+    existing = db.execute(select(User).where(User.email == payload.email))
+    if existing.scalar_one_or_none():
+        logger.warning(f"Duplicate registration attempt: {payload.email}")
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Email already registered",
@@ -47,6 +53,7 @@ def register_user(
     db.commit()
     db.refresh(user)
 
+    logger.info(f"User login success: {user.email} (ID={user.id})")
     return user
 
 
@@ -55,9 +62,13 @@ def login(
     payload: UserLogin,
     db: Session = Depends(get_db),
 ):
-    user = db.query(User).filter(User.email == payload.email).first()
+    logger.info(f"Login attempt for: {payload.email}")
+    stmt = select(User).where(User.email == payload.email)
+    result = db.execute(stmt)
+    user = result.scalar_one_or_none()
 
     if not user or not verify_password(payload.password, user.password_hash):
+        logger.warning(f"Failed login attempt: {payload.email}")
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect email or password",
@@ -69,9 +80,11 @@ def login(
         expires_delta=access_token_expires,
     )
 
+    logger.info(f"Login success for: {payload.email}")
     return Token(access_token=access_token)
 
 
 @router.get("/me", response_model=UserRead)
 def get_me(current_user: User = Depends(get_current_user)):
+    logger.info(f"Fetching profile for user: {current_user.email}")
     return current_user
