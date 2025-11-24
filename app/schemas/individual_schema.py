@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from pydantic import ConfigDict
 from typing import Optional
 from datetime import date
 
@@ -11,6 +12,8 @@ class IndividualBase(BaseModel):
     is_alive: Optional[bool] = True
     bio: Optional[str] = None
     photo_url: Optional[str] = None
+
+    model_config = ConfigDict(from_attributes=True)
 
 class IndividualCreate(IndividualBase):
     pass

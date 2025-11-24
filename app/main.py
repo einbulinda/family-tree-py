@@ -6,6 +6,7 @@ from time import time
 from app.api.individuals import router as individuals_router
 from app.api.auth import router as auth_router
 from app.api.relationship import router as relation_router
+from app.api.tree import router as tree_router
 
 
 # ------------------------------------
@@ -74,6 +75,7 @@ async def log_requests(request: Request, call_next):
 app.include_router(individuals_router)
 app.include_router(auth_router)
 app.include_router(relation_router)
+app.include_router(tree_router)
 
 @app.get("/")
 def root():
