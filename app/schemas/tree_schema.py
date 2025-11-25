@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from pydantic import BaseModel
-from typing import List
+from typing import List, Literal
 from app.schemas.individual_schema import IndividualResponse
 
 class ImmediateFamily(BaseModel):
@@ -36,3 +36,24 @@ class MultiLevelTree(BaseModel):
     """
     root: IndividualResponse
     generations: List[GenerationBand]
+
+
+class TreeNode(BaseModel):
+    id: int
+    label: str
+    type: Literal["root", "parent", "spouse", "child", "sibling"]
+    generation: int
+    x: int
+    y: int
+
+
+class TreeEdge(BaseModel):
+    source: int
+    target: int
+    relationship: str
+
+
+class TreeVisualization(BaseModel):
+    root: int
+    nodes: List[TreeNode]
+    edges: List[TreeEdge]

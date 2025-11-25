@@ -202,3 +202,32 @@
 2025-11-24 08:22:13,701 - DEBUG - family_tree.database - DB session opened
 2025-11-24 08:22:13,875 - INFO - family_tree - Completed: GET http://127.0.0.1:8000/api/tree/4/immediate Status: 200 Time: 0.176s
 2025-11-24 08:22:13,878 - DEBUG - family_tree.database - DB session closed
+2025-11-25 08:29:17,687 - INFO - family_tree - Incoming request: GET http://127.0.0.1:8000/
+2025-11-25 08:29:17,692 - INFO - family_tree - Health check endpoint requested
+2025-11-25 08:29:17,694 - INFO - family_tree - Completed: GET http://127.0.0.1:8000/ Status: 200 Time: 0.007s
+2025-11-25 08:29:17,779 - INFO - family_tree - Incoming request: GET http://127.0.0.1:8000/favicon.ico
+2025-11-25 08:29:17,787 - INFO - family_tree - Completed: GET http://127.0.0.1:8000/favicon.ico Status: 404 Time: 0.008s
+2025-11-25 08:29:24,640 - INFO - family_tree - Incoming request: GET http://127.0.0.1:8000/docs
+2025-11-25 08:29:24,641 - INFO - family_tree - Completed: GET http://127.0.0.1:8000/docs Status: 200 Time: 0.001s
+2025-11-25 08:29:24,829 - INFO - family_tree - Incoming request: GET http://127.0.0.1:8000/openapi.json
+2025-11-25 08:29:24,957 - INFO - family_tree - Completed: GET http://127.0.0.1:8000/openapi.json Status: 200 Time: 0.129s
+2025-11-25 08:29:36,384 - INFO - family_tree - Incoming request: GET http://127.0.0.1:8000/api/individuals/?skip=0&limit=100
+2025-11-25 08:29:36,386 - DEBUG - family_tree.database - DB session opened
+2025-11-25 08:29:36,710 - INFO - family_tree - Completed: GET http://127.0.0.1:8000/api/individuals/?skip=0&limit=100 Status: 200 Time: 0.326s
+2025-11-25 08:29:36,714 - DEBUG - family_tree.database - DB session closed
+2025-11-25 08:30:00,858 - INFO - family_tree - Incoming request: GET http://127.0.0.1:8000/api/tree/4/immediate
+2025-11-25 08:30:00,861 - DEBUG - family_tree.database - DB session opened
+2025-11-25 08:30:00,933 - INFO - family_tree - Completed: GET http://127.0.0.1:8000/api/tree/4/immediate Status: 200 Time: 0.075s
+2025-11-25 08:30:00,937 - DEBUG - family_tree.database - DB session closed
+2025-11-25 08:30:10,042 - INFO - family_tree - Incoming request: GET http://127.0.0.1:8000/api/tree/3/immediate
+2025-11-25 08:30:10,044 - DEBUG - family_tree.database - DB session opened
+2025-11-25 08:30:10,063 - INFO - family_tree - Completed: GET http://127.0.0.1:8000/api/tree/3/immediate Status: 200 Time: 0.021s
+2025-11-25 08:30:10,066 - DEBUG - family_tree.database - DB session closed
+2025-11-25 08:30:46,044 - INFO - family_tree - Incoming request: GET http://127.0.0.1:8000/api/tree/2/multi?direction=both&max_depth=3
+2025-11-25 08:30:46,046 - DEBUG - family_tree.database - DB session opened
+2025-11-25 08:30:46,092 - INFO - family_tree - Completed: GET http://127.0.0.1:8000/api/tree/2/multi?direction=both&max_depth=3 Status: 200 Time: 0.047s
+2025-11-25 08:30:46,095 - DEBUG - family_tree.database - DB session closed
+2025-11-25 08:31:11,516 - INFO - family_tree - Incoming request: GET http://127.0.0.1:8000/api/tree/4/multi?direction=both&max_depth=3
+2025-11-25 08:31:11,518 - DEBUG - family_tree.database - DB session opened
+2025-11-25 08:31:11,562 - INFO - family_tree - Completed: GET http://127.0.0.1:8000/api/tree/4/multi?direction=both&max_depth=3 Status: 200 Time: 0.046s
+2025-11-25 08:31:11,566 - DEBUG - family_tree.database - DB session closed

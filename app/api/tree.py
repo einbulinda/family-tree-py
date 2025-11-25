@@ -4,8 +4,10 @@ from sqlalchemy.orm import Session
 from app.db.database import get_db
 from app.schemas.tree_schema import ImmediateFamily, MultiLevelTree
 from app.services.tree_service import TreeService
+from app.services.tree_visual_service import TreeVisualService
+from app.schemas.tree_schema import TreeVisualization
 
-router = APIRouter(prefix="/api/tree", tags=["Tree"])
+router = APIRouter(prefix="/api/tree", tags=["Tree Visualisation"])
 
 @router.get("/{individual_id}/immediate", response_model=ImmediateFamily)
 def get_immediate_tree(individual_id: int, db: Session = Depends(get_db)):
@@ -36,3 +38,12 @@ def get_multi_level_tree(
     if not tree:
         raise HTTPException(status_code=404, detail="Individual not found")
     return tree
+
+@router.get("/{individual_id}/visual", response_model=TreeVisualization)
+def get_visual_tree(individual_id: int, db: Session = Depends(get_db)):
+    result = TreeVisualService.build_tree_visual(db, individual_id)
+
+    if result is None:
+        raise HTTPException(status_code=404, detail="Individual not found")
+
+    return result
