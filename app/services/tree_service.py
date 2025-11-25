@@ -1,20 +1,20 @@
-from typing import List, Set
+from typing import List, Set, Sequence, Dict
 
 from sqlalchemy.orm import Session
-from sqlalchemy import or_, and_
+from sqlalchemy import or_, and_, select
 
 from app.models.individual import Individual
 from app.models.relationship import Relationship
-from app.schemas.tree_schema import ImmediateFamily
+from app.schemas.tree_schema import ImmediateFamily, MultiLevelTree, GenerationBand
 from app.schemas.individual_schema import IndividualResponse
 
 
 class TreeService:
 
-    # ----------------------- CORE HELPERS ---------------------------------- #
+    # ----------------------- LOW LEVEL HELPERS ---------------------------------- #
 
     @staticmethod
-    def _get_root(db:Session, individual_id:int)-> Individual | None:
+    def _get_individual(db:Session, individual_id:int)-> Individual | None:
         return db.query(Individual).filter(Individual.id == individual_id).first()
 
     @staticmethod
@@ -121,26 +121,70 @@ class TreeService:
 
         return children
 
-    # ----------------------- SCHEMA CONVERSION ------------------------------ #
+    @staticmethod
+    def _get_parents_of_child(db:Session, child_id: int) ->Set[int]:
+        """
+        Get all parents of a child from Relationship table
+        Symmetric to _get_children_of_parent
+        """
+        parents : Set[int] = set()
+
+        # Case 1: relationship_type = 'parent', child is right side
+        parent_rels =(
+            db.query(Relationship).filter(
+                and_(
+                    Relationship.related_individual_id == child_id,
+                    Relationship.relationship_type == "parent"
+                )
+            ).all()
+        )
+        for rel in parent_rels:
+            parents.add(rel.individual_id)
+
+        # Case 2: relationship_type='child', child is left side
+        child_rels = (
+            db.query(Relationship)
+            .filter(
+                and_(
+                    Relationship.individual_id == child_id,
+                    Relationship.relationship_type == "child",
+                )
+            )
+            .all()
+        )
+        for rel in child_rels:
+            parents.add(rel.related_individual_id)
+
+        return parents
+
+    # ----------------------- SCHEMA MAPPING ------------------------------ #
 
     @staticmethod
     def to_schema(individual: Individual) -> IndividualResponse:
+        """
+        Convert ORM Individual -> Pydantic IndividualResponse explicitly.
+        """
         return IndividualResponse.model_validate(individual)
 
-    # ----------------------- BUILD TREE ------------------------------------- #
+
+    # ----------------------- IMMEDIATE /  SMART TREE ------------------------------------- #
 
     @staticmethod
     def build_immediate_family(db: Session, individual_id: int) -> ImmediateFamily | None:
         """
-        Smart family tree: returns parents, siblings, spouses, children.
+        Smart/immediate tree:
+        - root
+        - parents
+        - siblings  (based on shared parents)
+        - spouses
+        - children
         """
-        root = TreeService._get_root(db, individual_id)
+        root = TreeService._get_individual(db, individual_id)
         if not root:
             return None
 
         # Get all relationship edges (two-sided)
         rels = TreeService._get_all_relationships_for(db, individual_id)
-
         parent_ids, child_ids, spouse_ids = TreeService._classify_direct_relations(
             individual_id, rels
         )
@@ -156,10 +200,18 @@ class TreeService:
 
         # ------------------- QUERY ACTUAL INDIVIDUALS ------------------------ #
 
-        parents = db.query(Individual).filter(Individual.id.in_(parent_ids)).all() if parent_ids else []
-        spouses = db.query(Individual).filter(Individual.id.in_(spouse_ids)).all() if spouse_ids else []
-        children = db.query(Individual).filter(Individual.id.in_(child_ids)).all() if child_ids else []
-        siblings = db.query(Individual).filter(Individual.id.in_(sibling_ids)).all() if sibling_ids else []
+        # Fetch all individuals for each group
+        def fetch_many(ids: Set[int])->Sequence[Individual]:
+            if not ids:
+                return []
+            stmt = select(Individual).where(Individual.id.in_(ids))
+            result = db.execute(stmt)
+            return result.scalars().all()
+
+        parents = fetch_many(parent_ids)
+        spouses = fetch_many(spouse_ids)
+        children = fetch_many(child_ids)
+        siblings = fetch_many(sibling_ids)
 
         # ------------------- RETURN SCHEMA ----------------------------------- #
 
@@ -169,4 +221,110 @@ class TreeService:
             siblings=[TreeService.to_schema(s) for s in siblings],
             spouses=[TreeService.to_schema(s) for s in spouses],
             children=[TreeService.to_schema(c) for c in children],
+        )
+
+    # ---------- multi-level ancestors / descendants ----------
+
+    @staticmethod
+    def _bfs_generations(
+        db: Session,
+        start_ids: Set[int],
+        step_func,
+        start_generation: int,
+        max_depth: int,
+        seen: Set[int],
+    ) -> Dict[int, Set[int]]:
+        """
+        Generic BFS across generations using a step function.
+
+        step_func: given an individual_id -> returns a set of related ids
+                   (e.g., parents or children).
+        """
+        generations: Dict[int, Set[int]] = {}
+        current_gen_ids = set(start_ids)
+        current_generation = start_generation
+
+        depth = 0
+        while current_gen_ids and depth < max_depth:
+            # collect next frontier
+            next_ids: Set[int] = set()
+            for iid in current_gen_ids:
+                related_ids = step_func(db, iid)
+                for rid in related_ids:
+                    if rid not in seen:
+                        seen.add(rid)
+                        next_ids.add(rid)
+
+            if not next_ids:
+                break
+
+            # move one generation step
+            current_generation = current_generation + 1 if start_generation >= 0 else current_generation - 1
+            generations[current_generation] = next_ids
+            current_gen_ids = next_ids
+            depth += 1
+
+        return generations
+
+    @staticmethod
+    def build_multi_level_tree(
+        db: Session,
+        individual_id: int,
+        direction: str = "both",
+        max_depth: int = 3,
+    ) -> MultiLevelTree | None:
+        """
+        Build a multi-level tree in ancestor/descendant or both directions.
+
+        direction: "ancestors", "descendants", or "both"
+        max_depth: how many generations up/down to explore.
+        """
+        root = TreeService._get_individual(db, individual_id)
+        if not root:
+            return None
+
+        seen: Set[int] = {individual_id}
+        generations: Dict[int, Set[int]] = {0: {individual_id}}
+
+        # Ancestors: negative generations
+        if direction in ("ancestors", "both"):
+            ancestor_gens = TreeService._bfs_generations(
+                db=db,
+                start_ids={individual_id},
+                step_func=TreeService._get_parents_of_child,
+                start_generation=0,
+                max_depth=max_depth,
+                seen=seen,
+            )
+            generations.update(ancestor_gens)
+
+        # Descendants: positive generations
+        if direction in ("descendants", "both"):
+            descendant_gens = TreeService._bfs_generations(
+                db=db,
+                start_ids={individual_id},
+                step_func=TreeService._get_children_of_parent,
+                start_generation=0,
+                max_depth=max_depth,
+                seen=seen,
+            )
+            generations.update(descendant_gens)
+
+        # Materialize ORM -> schemas
+        bands: List[GenerationBand] = []
+        for gen_index in sorted(generations.keys()):
+            ids = generations[gen_index]
+            individuals = (
+                db.query(Individual).filter(Individual.id.in_(ids)).all() if ids else []
+            )
+            bands.append(
+                GenerationBand(
+                    generation=gen_index,
+                    individuals=[TreeService.to_schema(ind) for ind in individuals],
+                )
+            )
+
+        return MultiLevelTree(
+            root=TreeService.to_schema(root),
+            generations=bands,
         )
