@@ -1,4 +1,4 @@
-from typing import List, Set, Sequence, Dict
+from typing import List, Set, Sequence, Dict, Optional, Callable
 
 from sqlalchemy.orm import Session
 from sqlalchemy import or_, and_, select
@@ -14,24 +14,26 @@ class TreeService:
     # ----------------------- LOW LEVEL HELPERS ---------------------------------- #
 
     @staticmethod
-    def _get_individual(db:Session, individual_id:int)-> Individual | None:
-        return db.query(Individual).filter(Individual.id == individual_id).first()
+    def _get_individual(db:Session, individual_id:int)-> Optional[Individual]:
+        stmt = select(Individual).where(Individual.id == individual_id)
+        result = db.execute(stmt)
+        return result.scalar_one_or_none()
 
     @staticmethod
-    def _get_all_relationships_for(db: Session, individual_id: int) -> List[Relationship]:
+    def _get_all_relationships_for(db: Session, individual_id: int) -> Sequence[Relationship]:
         """
         Fetch all relationships where this individual appears on either side.
         """
-        return (
-            db.query(Relationship)
-            .filter(
-                or_(
-                    Relationship.individual_id == individual_id,
-                    Relationship.related_individual_id == individual_id,
-                )
+        stmt = select(Relationship).where(
+            or_(
+                Relationship.individual_id == individual_id,
+                Relationship.related_individual_id == individual_id,
             )
-            .all()
         )
+
+        result = db.execute(stmt)
+        return result.scalars().all()
+
 
     @staticmethod
     def _classify_direct_relations(
@@ -81,7 +83,10 @@ class TreeService:
                     # current = parent, other = child
                     child_ids.add(other_id)
 
+
         return parent_ids, child_ids, spouse_ids
+
+    # ---------- helpers that return *ID sets* (not Relationship objects) -----
 
     @staticmethod
     def _get_children_of_parent(db: Session, parent_id: int) -> Set[int]:
@@ -89,37 +94,26 @@ class TreeService:
         Get all children of a parent from Relationship table.
         We consider both representations: 'parent' and 'child'.
         """
-        children: Set[int] = set()
 
-        # Case 1: relationship_type='parent', parent_id is left side
-        parent_rels = (
-            db.query(Relationship)
-            .filter(
-                and_(
-                    Relationship.individual_id == parent_id,
-                    Relationship.relationship_type == "parent",
-                )
+        # Case 1: (parent)-[parent]->(child)
+        stmt1 = select(Relationship.related_individual_id).where(
+            and_(
+                Relationship.individual_id == parent_id,
+                Relationship.relationship_type == "parent",
             )
-            .all()
         )
-        for rel in parent_rels:
-            children.add(rel.related_individual_id)
 
-        # Case B — stored as (child -> parent)
-        rels_child = (
-            db.query(Relationship)
-            .filter(
-                and_(
-                    Relationship.related_individual_id == parent_id,
-                    Relationship.relationship_type == "child",
-                )
+        stmt2 = select(Relationship.individual_id).where(
+            and_(
+                Relationship.related_individual_id == parent_id,
+                Relationship.relationship_type == "child",
             )
-            .all()
         )
-        for rel in rels_child:
-            children.add(rel.individual_id)
 
-        return children
+        ids1 = db.execute(stmt1).scalars().all()
+        ids2 = db.execute(stmt2).scalars().all()
+
+        return set(ids1) | set(ids2)
 
     @staticmethod
     def _get_parents_of_child(db:Session, child_id: int) ->Set[int]:
@@ -127,35 +121,28 @@ class TreeService:
         Get all parents of a child from Relationship table
         Symmetric to _get_children_of_parent
         """
-        parents : Set[int] = set()
 
         # Case 1: relationship_type = 'parent', child is right side
-        parent_rels =(
-            db.query(Relationship).filter(
-                and_(
-                    Relationship.related_individual_id == child_id,
-                    Relationship.relationship_type == "parent"
-                )
-            ).all()
+        stmt1 = select(Relationship.individual_id).where(
+            and_(
+                Relationship.related_individual_id == child_id,
+                Relationship.relationship_type == "parent"
+            )
         )
-        for rel in parent_rels:
-            parents.add(rel.individual_id)
 
         # Case 2: relationship_type='child', child is left side
-        child_rels = (
-            db.query(Relationship)
-            .filter(
-                and_(
-                    Relationship.individual_id == child_id,
-                    Relationship.relationship_type == "child",
-                )
+        stmt2 = select(Relationship.related_individual_id).where(
+            and_(
+                Relationship.individual_id == child_id,
+                Relationship.relationship_type == "child",
             )
-            .all()
         )
-        for rel in child_rels:
-            parents.add(rel.related_individual_id)
 
-        return parents
+        ids1 = db.execute(stmt1).scalars().all()
+        ids2 = db.execute(stmt2).scalars().all()
+
+        return set(ids1) | set(ids2)
+
 
     # ----------------------- SCHEMA MAPPING ------------------------------ #
 
@@ -192,8 +179,8 @@ class TreeService:
         # ------------------- FIND SIBLINGS ---------------------------------- #
 
         sibling_ids: Set[int] = set()
-        for p in parent_ids:
-            all_children = TreeService._get_children_of_parent(db, p)
+        for parent_id in parent_ids:
+            all_children = TreeService._get_children_of_parent(db, parent_id)
             for cid in all_children:
                 if cid != individual_id:
                     sibling_ids.add(cid)
@@ -227,29 +214,32 @@ class TreeService:
 
     @staticmethod
     def _bfs_generations(
-        db: Session,
-        start_ids: Set[int],
-        step_func,
-        start_generation: int,
-        max_depth: int,
-        seen: Set[int],
+            db: Session,
+            start_ids: Set[int],
+            step_func: Callable[[Session, int], Set[int]],
+            initial_generation: int,
+            step: int,
+            max_depth: int,
+            seen: Set[int],
     ) -> Dict[int, Set[int]]:
         """
-        Generic BFS across generations using a step function.
+        Generic BFS used for both ancestors and descendants.
 
-        step_func: given an individual_id -> returns a set of related ids
-                   (e.g., parents or children).
+        step_func: given person_id -> set[related_id]
+        initial_generation: usually 0 (root)
+        step: +1 for descendants, -1 for ancestors
         """
         generations: Dict[int, Set[int]] = {}
-        current_gen_ids = set(start_ids)
-        current_generation = start_generation
+        current_ids = set(start_ids)
+        current_generation = initial_generation
 
-        depth = 0
-        while current_gen_ids and depth < max_depth:
-            # collect next frontier
+        for _ in range(max_depth):
+            if not current_ids:
+                break
+
             next_ids: Set[int] = set()
-            for iid in current_gen_ids:
-                related_ids = step_func(db, iid)
+            for pid in current_ids:
+                related_ids = step_func(db, pid)
                 for rid in related_ids:
                     if rid not in seen:
                         seen.add(rid)
@@ -258,11 +248,9 @@ class TreeService:
             if not next_ids:
                 break
 
-            # move one generation step
-            current_generation = current_generation + 1 if start_generation >= 0 else current_generation - 1
+            current_generation += step
             generations[current_generation] = next_ids
-            current_gen_ids = next_ids
-            depth += 1
+            current_ids = next_ids
 
         return generations
 
@@ -292,7 +280,8 @@ class TreeService:
                 db=db,
                 start_ids={individual_id},
                 step_func=TreeService._get_parents_of_child,
-                start_generation=0,
+                initial_generation=0,
+                step=-1,
                 max_depth=max_depth,
                 seen=seen,
             )
@@ -304,7 +293,8 @@ class TreeService:
                 db=db,
                 start_ids={individual_id},
                 step_func=TreeService._get_children_of_parent,
-                start_generation=0,
+                initial_generation=0,
+                step=+1,
                 max_depth=max_depth,
                 seen=seen,
             )
@@ -314,9 +304,13 @@ class TreeService:
         bands: List[GenerationBand] = []
         for gen_index in sorted(generations.keys()):
             ids = generations[gen_index]
-            individuals = (
-                db.query(Individual).filter(Individual.id.in_(ids)).all() if ids else []
-            )
+            if ids:
+                stmt = select(Individual).where(Individual.id.in_(ids))
+                result = db.execute(stmt)
+                individuals = result.scalars().all()
+            else:
+                individuals = []
+
             bands.append(
                 GenerationBand(
                     generation=gen_index,

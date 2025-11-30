@@ -7,6 +7,8 @@ from app.api.individuals import router as individuals_router
 from app.api.auth import router as auth_router
 from app.api.relationship import router as relation_router
 from app.api.tree import router as tree_router
+from app.api.graph_admin import router as graph_admin_router
+from app.api.graph_tree import router as graph_tree_router
 
 
 # ------------------------------------
@@ -76,6 +78,8 @@ app.include_router(individuals_router)
 app.include_router(auth_router)
 app.include_router(relation_router)
 app.include_router(tree_router)
+app.include_router(graph_admin_router)
+app.include_router(graph_tree_router)
 
 @app.get("/")
 def root():

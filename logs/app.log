@@ -231,3 +231,132 @@
 2025-11-25 08:31:11,518 - DEBUG - family_tree.database - DB session opened
 2025-11-25 08:31:11,562 - INFO - family_tree - Completed: GET http://127.0.0.1:8000/api/tree/4/multi?direction=both&max_depth=3 Status: 200 Time: 0.046s
 2025-11-25 08:31:11,566 - DEBUG - family_tree.database - DB session closed
+2025-11-27 15:50:09,352 - INFO - family_tree - Incoming request: GET http://127.0.0.1:8000/
+2025-11-27 15:50:09,393 - INFO - family_tree - Health check endpoint requested
+2025-11-27 15:50:09,394 - INFO - family_tree - Completed: GET http://127.0.0.1:8000/ Status: 200 Time: 0.042s
+2025-11-27 15:50:09,682 - INFO - family_tree - Incoming request: GET http://127.0.0.1:8000/favicon.ico
+2025-11-27 15:50:09,699 - INFO - family_tree - Completed: GET http://127.0.0.1:8000/favicon.ico Status: 404 Time: 0.017s
+2025-11-27 15:50:26,032 - INFO - family_tree - Incoming request: GET http://127.0.0.1:8000/docs
+2025-11-27 15:50:26,034 - INFO - family_tree - Completed: GET http://127.0.0.1:8000/docs Status: 200 Time: 0.002s
+2025-11-27 15:50:28,431 - INFO - family_tree - Incoming request: GET http://127.0.0.1:8000/openapi.json
+2025-11-27 15:50:28,570 - INFO - family_tree - Completed: GET http://127.0.0.1:8000/openapi.json Status: 200 Time: 0.139s
+2025-11-27 15:50:40,295 - INFO - family_tree - Incoming request: POST http://127.0.0.1:8000/api/graph-admin/sync
+2025-11-27 15:50:40,298 - DEBUG - family_tree.database - DB session opened
+2025-11-27 15:50:40,300 - DEBUG - family_tree.database - DB session closed
+2025-11-27 15:54:37,540 - INFO - family_tree - Incoming request: POST http://127.0.0.1:8000/api/graph-admin/sync
+2025-11-27 15:54:37,543 - DEBUG - family_tree.database - DB session opened
+2025-11-27 15:54:37,545 - DEBUG - family_tree.database - DB session closed
+2025-11-27 15:54:47,333 - INFO - family_tree - Incoming request: POST http://127.0.0.1:8000/api/graph-admin/sync
+2025-11-27 15:54:47,335 - DEBUG - family_tree.database - DB session opened
+2025-11-27 15:54:47,337 - DEBUG - family_tree.database - DB session closed
+2025-11-28 14:01:10,648 - INFO - family_tree - Incoming request: GET http://127.0.0.1:8000/api/graph-admin/sync
+2025-11-28 14:01:10,657 - INFO - family_tree - Completed: GET http://127.0.0.1:8000/api/graph-admin/sync Status: 405 Time: 0.009s
+2025-11-28 14:01:23,974 - INFO - family_tree - Incoming request: POST http://127.0.0.1:8000/api/graph-admin/sync
+2025-11-28 14:01:23,983 - DEBUG - family_tree.database - DB session opened
+2025-11-28 14:01:23,987 - DEBUG - family_tree.database - DB session closed
+2025-11-28 14:13:09,436 - INFO - family_tree - Incoming request: GET http://127.0.0.1:8000/docs
+2025-11-28 14:13:09,453 - INFO - family_tree - Completed: GET http://127.0.0.1:8000/docs Status: 200 Time: 0.018s
+2025-11-28 14:13:11,018 - INFO - family_tree - Incoming request: GET http://127.0.0.1:8000/openapi.json
+2025-11-28 14:13:11,429 - INFO - family_tree - Completed: GET http://127.0.0.1:8000/openapi.json Status: 200 Time: 0.411s
+2025-11-28 14:14:07,991 - INFO - family_tree - Incoming request: GET http://localhost:8000/docs
+2025-11-28 14:14:07,994 - INFO - family_tree - Completed: GET http://localhost:8000/docs Status: 200 Time: 0.003s
+2025-11-28 14:14:09,616 - INFO - family_tree - Incoming request: GET http://localhost:8000/openapi.json
+2025-11-28 14:14:09,619 - INFO - family_tree - Completed: GET http://localhost:8000/openapi.json Status: 200 Time: 0.003s
+2025-11-28 14:15:30,556 - INFO - family_tree - Incoming request: POST http://127.0.0.1:8000/api/graph-admin/sync
+2025-11-28 14:15:30,560 - DEBUG - family_tree.database - DB session opened
+2025-11-28 14:15:30,564 - DEBUG - family_tree.database - DB session closed
+2025-11-28 14:16:34,652 - INFO - family_tree - Incoming request: POST http://127.0.0.1:8000/api/graph-admin/sync
+2025-11-28 14:16:34,656 - DEBUG - family_tree.database - DB session opened
+2025-11-28 14:16:34,660 - DEBUG - family_tree.database - DB session closed
+2025-11-28 14:21:03,664 - INFO - family_tree - Incoming request: POST http://127.0.0.1:8000/api/graph-admin/sync
+2025-11-28 14:21:03,668 - DEBUG - family_tree.database - DB session opened
+2025-11-28 14:21:03,672 - DEBUG - family_tree.database - DB session closed
+2025-11-28 14:22:03,532 - INFO - family_tree - Incoming request: POST http://127.0.0.1:8000/api/graph-admin/sync
+2025-11-28 14:22:03,536 - DEBUG - family_tree.database - DB session opened
+2025-11-28 14:22:03,539 - DEBUG - family_tree.database - DB session closed
+2025-11-28 14:22:44,216 - INFO - family_tree - Incoming request: POST http://127.0.0.1:8000/api/graph-admin/sync
+2025-11-28 14:22:44,220 - DEBUG - family_tree.database - DB session opened
+2025-11-28 14:22:44,223 - DEBUG - family_tree.database - DB session closed
+2025-11-28 14:23:40,482 - INFO - family_tree - Incoming request: POST http://127.0.0.1:8000/api/graph-admin/sync
+2025-11-28 14:23:40,484 - DEBUG - family_tree.database - DB session opened
+2025-11-28 14:23:40,487 - DEBUG - family_tree.database - DB session closed
+2025-11-28 16:06:07,362 - INFO - family_tree - Incoming request: POST http://127.0.0.1:8000/api/graph-admin/sync
+2025-11-28 16:06:07,364 - DEBUG - family_tree.database - DB session opened
+2025-11-28 16:06:12,700 - INFO - family_tree - Completed: POST http://127.0.0.1:8000/api/graph-admin/sync Status: 200 Time: 5.338s
+2025-11-28 16:06:12,705 - DEBUG - family_tree.database - DB session closed
+2025-11-28 16:14:49,417 - INFO - family_tree - Incoming request: GET http://localhost:8000/docs
+2025-11-28 16:14:49,426 - INFO - family_tree - Completed: GET http://localhost:8000/docs Status: 200 Time: 0.008s
+2025-11-28 16:14:49,782 - INFO - family_tree - Incoming request: GET http://localhost:8000/openapi.json
+2025-11-28 16:14:49,886 - INFO - family_tree - Completed: GET http://localhost:8000/openapi.json Status: 200 Time: 0.104s
+2025-11-28 16:15:03,087 - INFO - family_tree - Incoming request: GET http://localhost:8000/api/graph-tree/4/ancestors?max_depth=4
+2025-11-28 16:21:56,660 - INFO - family_tree - Incoming request: GET http://localhost:8000/api/graph-tree/4/ancestors?max_depth=4
+2025-11-28 16:28:29,209 - INFO - family_tree - Incoming request: GET http://localhost:8000/api/graph-tree/4/ancestors?max_depth=4
+2025-11-28 16:34:47,840 - INFO - family_tree - Incoming request: GET http://localhost:8000/api/graph-tree/4/ancestors?max_depth=4
+2025-11-28 16:36:09,078 - INFO - family_tree - Incoming request: GET http://localhost:8000/docs
+2025-11-28 16:36:09,079 - INFO - family_tree - Completed: GET http://localhost:8000/docs Status: 200 Time: 0.001s
+2025-11-28 16:36:09,284 - INFO - family_tree - Incoming request: GET http://localhost:8000/openapi.json
+2025-11-28 16:36:09,365 - INFO - family_tree - Completed: GET http://localhost:8000/openapi.json Status: 200 Time: 0.081s
+2025-11-28 16:36:19,942 - INFO - family_tree - Incoming request: GET http://localhost:8000/api/graph-tree/2/ancestors?max_depth=4
+2025-11-28 16:39:58,421 - INFO - family_tree - Incoming request: GET http://localhost:8000//api/graph-tree/2/ancestors
+2025-11-28 16:39:58,421 - INFO - family_tree - Incoming request: GET http://127.0.0.1:8000/
+2025-11-28 16:39:58,422 - INFO - family_tree - Incoming request: GET http://127.0.0.1:8000/
+2025-11-28 16:39:58,424 - INFO - family_tree - Completed: GET http://localhost:8000//api/graph-tree/2/ancestors Status: 404 Time: 0.003s
+2025-11-28 16:39:58,425 - INFO - family_tree - Health check endpoint requested
+2025-11-28 16:39:58,426 - INFO - family_tree - Health check endpoint requested
+2025-11-28 16:39:58,426 - INFO - family_tree - Incoming request: GET http://localhost:8000/api/graph-tree/2/ancestors?max_depth=4
+2025-11-28 16:39:58,427 - INFO - family_tree - Completed: GET http://127.0.0.1:8000/ Status: 200 Time: 0.006s
+2025-11-28 16:39:58,428 - INFO - family_tree - Completed: GET http://127.0.0.1:8000/ Status: 200 Time: 0.006s
+2025-11-28 16:44:22,246 - INFO - family_tree - Incoming request: GET http://localhost:8000/docs
+2025-11-28 16:44:22,248 - INFO - family_tree - Completed: GET http://localhost:8000/docs Status: 200 Time: 0.002s
+2025-11-28 16:44:22,942 - INFO - family_tree - Incoming request: GET http://localhost:8000/openapi.json
+2025-11-28 16:44:23,180 - INFO - family_tree - Completed: GET http://localhost:8000/openapi.json Status: 200 Time: 0.238s
+2025-11-28 16:44:44,136 - INFO - family_tree - Incoming request: GET http://localhost:8000/api/graph-tree/2/ancestors?max_depth=4
+2025-11-28 16:45:48,512 - INFO - family_tree - Incoming request: GET http://localhost:8000/api/graph-tree/2/ancestors?max_depth=4
+2025-11-28 16:46:53,003 - INFO - family_tree - Incoming request: GET http://localhost:8000/api/graph-tree/2/ancestors?max_depth=4
+2025-11-28 16:47:04,389 - INFO - family_tree - Completed: GET http://localhost:8000/api/graph-tree/2/ancestors?max_depth=4 Status: 404 Time: 11.385s
+2025-11-28 16:47:04,688 - INFO - family_tree - Incoming request: GET http://localhost:8000/favicon.ico
+2025-11-28 16:47:04,696 - INFO - family_tree - Completed: GET http://localhost:8000/favicon.ico Status: 404 Time: 0.008s
+2025-11-30 13:20:44,848 - INFO - family_tree - Incoming request: GET http://127.0.0.1:8000/
+2025-11-30 13:20:44,855 - INFO - family_tree - Health check endpoint requested
+2025-11-30 13:20:44,866 - INFO - family_tree - Completed: GET http://127.0.0.1:8000/ Status: 200 Time: 0.017s
+2025-11-30 13:20:45,004 - INFO - family_tree - Incoming request: GET http://127.0.0.1:8000/favicon.ico
+2025-11-30 13:20:45,015 - INFO - family_tree - Completed: GET http://127.0.0.1:8000/favicon.ico Status: 404 Time: 0.011s
+2025-11-30 13:21:19,347 - INFO - family_tree - Incoming request: GET http://127.0.0.1:8000/api/graph-admin/sync
+2025-11-30 13:21:19,348 - INFO - family_tree - Completed: GET http://127.0.0.1:8000/api/graph-admin/sync Status: 405 Time: 0.001s
+2025-11-30 13:21:19,388 - INFO - family_tree - Incoming request: GET http://127.0.0.1:8000/favicon.ico
+2025-11-30 13:21:19,389 - INFO - family_tree - Completed: GET http://127.0.0.1:8000/favicon.ico Status: 404 Time: 0.001s
+2025-11-30 13:21:53,862 - INFO - family_tree - Incoming request: GET http://127.0.0.1:8000/api/2/ancestors
+2025-11-30 13:21:53,863 - INFO - family_tree - Completed: GET http://127.0.0.1:8000/api/2/ancestors Status: 404 Time: 0.001s
+2025-11-30 13:21:53,902 - INFO - family_tree - Incoming request: GET http://127.0.0.1:8000/favicon.ico
+2025-11-30 13:21:53,903 - INFO - family_tree - Completed: GET http://127.0.0.1:8000/favicon.ico Status: 404 Time: 0.001s
+2025-11-30 13:22:48,987 - INFO - family_tree - Incoming request: GET http://127.0.0.1:8000/api/4/ancestors
+2025-11-30 13:22:48,988 - INFO - family_tree - Completed: GET http://127.0.0.1:8000/api/4/ancestors Status: 404 Time: 0.001s
+2025-11-30 13:22:49,042 - INFO - family_tree - Incoming request: GET http://127.0.0.1:8000/favicon.ico
+2025-11-30 13:22:49,043 - INFO - family_tree - Completed: GET http://127.0.0.1:8000/favicon.ico Status: 404 Time: 0.001s
+2025-11-30 13:22:51,382 - INFO - family_tree - Incoming request: GET http://127.0.0.1:8000/api/4/ancestors
+2025-11-30 13:22:51,383 - INFO - family_tree - Completed: GET http://127.0.0.1:8000/api/4/ancestors Status: 404 Time: 0.001s
+2025-11-30 13:22:51,411 - INFO - family_tree - Incoming request: GET http://127.0.0.1:8000/favicon.ico
+2025-11-30 13:22:51,412 - INFO - family_tree - Completed: GET http://127.0.0.1:8000/favicon.ico Status: 404 Time: 0.001s
+2025-11-30 13:22:58,485 - INFO - family_tree - Incoming request: GET http://127.0.0.1:8000/favicon.ico
+2025-11-30 13:22:58,486 - INFO - family_tree - Completed: GET http://127.0.0.1:8000/favicon.ico Status: 404 Time: 0.001s
+2025-11-30 13:23:05,601 - INFO - family_tree - Incoming request: GET http://127.0.0.1:8000/docs
+2025-11-30 13:23:05,602 - INFO - family_tree - Completed: GET http://127.0.0.1:8000/docs Status: 200 Time: 0.001s
+2025-11-30 13:23:05,803 - INFO - family_tree - Incoming request: GET http://127.0.0.1:8000/openapi.json
+2025-11-30 13:23:05,885 - INFO - family_tree - Completed: GET http://127.0.0.1:8000/openapi.json Status: 200 Time: 0.082s
+2025-11-30 13:23:15,730 - INFO - family_tree - Incoming request: GET http://127.0.0.1:8000/api/individuals/?skip=0&limit=100
+2025-11-30 13:23:15,730 - DEBUG - family_tree.database - DB session opened
+2025-11-30 13:23:15,790 - INFO - family_tree - Completed: GET http://127.0.0.1:8000/api/individuals/?skip=0&limit=100 Status: 200 Time: 0.061s
+2025-11-30 13:23:15,791 - DEBUG - family_tree.database - DB session closed
+2025-11-30 13:23:49,823 - INFO - family_tree - Incoming request: GET http://127.0.0.1:8000/api/relationships/4
+2025-11-30 13:23:49,824 - DEBUG - family_tree.database - DB session opened
+2025-11-30 13:23:49,834 - INFO - family_tree - Completed: GET http://127.0.0.1:8000/api/relationships/4 Status: 200 Time: 0.011s
+2025-11-30 13:23:49,835 - DEBUG - family_tree.database - DB session closed
+2025-11-30 13:24:56,776 - INFO - family_tree - Incoming request: GET http://127.0.0.1:8000/api/tree/4/multi?direction=both&max_depth=3
+2025-11-30 13:24:56,776 - DEBUG - family_tree.database - DB session opened
+2025-11-30 13:24:56,838 - DEBUG - family_tree.database - DB session closed
+2025-11-30 13:26:00,319 - INFO - family_tree - Incoming request: GET http://127.0.0.1:8000/api/tree/4/visual
+2025-11-30 13:26:00,321 - DEBUG - family_tree.database - DB session opened
+2025-11-30 13:26:00,332 - DEBUG - family_tree.database - DB session closed
+2025-11-30 13:37:28,566 - INFO - family_tree - Incoming request: GET http://127.0.0.1:8000/api/tree/4/visual
+2025-11-30 13:37:28,570 - DEBUG - family_tree.database - DB session opened
+2025-11-30 13:37:28,670 - DEBUG - family_tree.database - DB session closed
